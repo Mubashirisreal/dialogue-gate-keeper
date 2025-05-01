@@ -1,12 +1,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
-
-// These would come from environment variables in a production app
-// For this implementation, we'll hardcode them, but you would replace these with your own
-const supabaseUrl = 'YOUR_SUPABASE_URL';
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
 
 type User = {
   id: string;
@@ -15,7 +10,7 @@ type User = {
 
 interface AuthContextType {
   user: User | null;
-  supabase: SupabaseClient;
+  supabase: typeof supabase;
   loading: boolean;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
@@ -27,7 +22,6 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [supabase] = useState(() => createClient(supabaseUrl, supabaseKey));
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
@@ -56,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       subscription.unsubscribe();
     };
-  }, [supabase]);
+  }, []);
 
   // Sign up with email and password
   const signUp = async (email: string, password: string) => {

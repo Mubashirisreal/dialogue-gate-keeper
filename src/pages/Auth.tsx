@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Navigate } from "react-router-dom";
-import { Google, Mail } from "lucide-react";
+import { Mail, ExternalLink } from "lucide-react";
 
 import { useAuth } from "@/context/AuthContext";
 import { AuthLayout } from "@/components/AuthLayout";
@@ -126,7 +126,7 @@ export default function Auth() {
               isLoading={isLoading}
               loadingText="Signing in with Google..."
             >
-              <Google className="mr-2 h-4 w-4" />
+              <ExternalLink className="mr-2 h-4 w-4" />
               Continue with Google
             </AuthButton>
             
@@ -223,7 +223,7 @@ export default function Auth() {
               isLoading={isLoading}
               loadingText="Signing up with Google..."
             >
-              <Google className="mr-2 h-4 w-4" />
+              <ExternalLink className="mr-2 h-4 w-4" />
               Continue with Google
             </AuthButton>
             
