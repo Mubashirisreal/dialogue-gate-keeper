@@ -21,6 +21,9 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// External URL to redirect to after authentication
+const EXTERNAL_REDIRECT_URL = "https://tara-goodmind.vercel.app/";
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -40,6 +43,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       (event, session) => {
         if (session?.user) {
           setUser({ id: session.user.id, email: session.user.email });
+          // Redirect to external URL after successful authentication
+          if (event === 'SIGNED_IN') {
+            window.location.href = EXTERNAL_REDIRECT_URL;
+          }
         } else {
           setUser(null);
         }
@@ -56,7 +63,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signUp = async (email: string, password: string) => {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signUp({ email, password });
+      const { error } = await supabase.auth.signUp({ 
+        email, 
+        password,
+        options: {
+          emailRedirectTo: EXTERNAL_REDIRECT_URL
+        }
+      });
       
       if (error) {
         toast({
@@ -98,6 +111,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         title: "Welcome back!",
         description: "Successfully logged in.",
       });
+      
+      // Redirect will happen via the onAuthStateChange listener
     } catch (error) {
       console.error("Error signing in:", error);
       throw error;
@@ -112,7 +127,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin,
+          redirectTo: EXTERNAL_REDIRECT_URL,
         },
       });
       
@@ -162,7 +177,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       setLoading(true);
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: `${EXTERNAL_REDIRECT_URL}/reset-password`,
       });
       
       if (error) {

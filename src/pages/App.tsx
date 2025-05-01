@@ -4,14 +4,17 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 
+// External URL to redirect to after authentication
+const EXTERNAL_REDIRECT_URL = "https://tara-goodmind.vercel.app/";
+
 export default function AppPage() {
   const { user, loading, signOut } = useAuth();
   
   useEffect(() => {
     if (user) {
       console.log("User is authenticated:", user);
-      // Here you would redirect to your conversational agent application
-      // Or you could pass the auth token to your application
+      // Redirect to external URL
+      window.location.href = EXTERNAL_REDIRECT_URL;
     }
   }, [user]);
 
@@ -45,7 +48,7 @@ export default function AppPage() {
           )}
         </p>
         <p className="mb-8 text-muted-foreground">
-          You are now authenticated. This is where you would be redirected to your conversational agent application.
+          Redirecting you to Tara from Goodmind...
         </p>
         <Button onClick={signOut} variant="outline">Sign Out</Button>
       </div>
