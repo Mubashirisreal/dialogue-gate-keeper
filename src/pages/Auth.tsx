@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -13,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
+import { GoogleIcon } from "@/components/icons/GoogleIcon";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -120,25 +120,6 @@ export default function Auth() {
           <h2 className="mb-6 text-xl font-semibold text-center">Sign in to your account</h2>
           
           <div className="space-y-4">
-            <AuthButton 
-              variant="outline" 
-              onClick={handleGoogleSignIn}
-              isLoading={isLoading}
-              loadingText="Signing in with Google..."
-            >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Continue with Google
-            </AuthButton>
-            
-            <div className="relative my-4">
-              <div className="absolute inset-0 flex items-center">
-                <Separator />
-              </div>
-              <div className="relative flex justify-center">
-                <span className="bg-card px-2 text-xs text-muted-foreground">or continue with email</span>
-              </div>
-            </div>
-            
             <Form {...loginForm}>
               <form onSubmit={loginForm.handleSubmit(handleLoginSubmit)} className="space-y-4">
                 <FormField
@@ -169,7 +150,7 @@ export default function Auth() {
                         <button
                           type="button"
                           onClick={() => setAuthView("forgotPassword")}
-                          className="text-xs text-primary hover:underline"
+                          className="text-xs text-[#1a5e1a] hover:underline"
                         >
                           Forgot password?
                         </button>
@@ -191,6 +172,7 @@ export default function Auth() {
                   type="submit" 
                   isLoading={isLoading}
                   loadingText="Signing in..."
+                  className="bg-[#1a5e1a] hover:bg-[#1a5e1a]/90"
                 >
                   <Mail className="mr-2 h-4 w-4" />
                   Sign in with Email
@@ -198,12 +180,31 @@ export default function Auth() {
               </form>
             </Form>
             
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <Separator />
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-card px-2 text-xs text-muted-foreground">or</span>
+              </div>
+            </div>
+            
+            <AuthButton 
+              variant="outline" 
+              onClick={handleGoogleSignIn}
+              isLoading={isLoading}
+              loadingText="Signing in with Google..."
+            >
+              <GoogleIcon className="mr-2 h-4 w-4" />
+              Continue with Google
+            </AuthButton>
+            
             <p className="mt-6 text-center text-sm text-muted-foreground">
               Don't have an account?{" "}
               <button
                 type="button"
                 onClick={() => setAuthView("signup")}
-                className="font-medium text-primary hover:underline"
+                className="font-medium text-[#1a5e1a] hover:underline"
               >
                 Sign up
               </button>
@@ -217,25 +218,6 @@ export default function Auth() {
           <h2 className="mb-6 text-xl font-semibold text-center">Create your account</h2>
           
           <div className="space-y-4">
-            <AuthButton 
-              variant="outline" 
-              onClick={handleGoogleSignIn}
-              isLoading={isLoading}
-              loadingText="Signing up with Google..."
-            >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Continue with Google
-            </AuthButton>
-            
-            <div className="relative my-4">
-              <div className="absolute inset-0 flex items-center">
-                <Separator />
-              </div>
-              <div className="relative flex justify-center">
-                <span className="bg-card px-2 text-xs text-muted-foreground">or sign up with email</span>
-              </div>
-            </div>
-            
             <Form {...signupForm}>
               <form onSubmit={signupForm.handleSubmit(handleSignupSubmit)} className="space-y-4">
                 <FormField
@@ -298,18 +280,38 @@ export default function Auth() {
                   type="submit" 
                   isLoading={isLoading}
                   loadingText="Creating account..."
+                  className="bg-[#1a5e1a] hover:bg-[#1a5e1a]/90"
                 >
                   Sign up with Email
                 </AuthButton>
               </form>
             </Form>
             
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <Separator />
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-card px-2 text-xs text-muted-foreground">or</span>
+              </div>
+            </div>
+            
+            <AuthButton 
+              variant="outline" 
+              onClick={handleGoogleSignIn}
+              isLoading={isLoading}
+              loadingText="Signing up with Google..."
+            >
+              <GoogleIcon className="mr-2 h-4 w-4" />
+              Continue with Google
+            </AuthButton>
+            
             <p className="mt-6 text-center text-sm text-muted-foreground">
               Already have an account?{" "}
               <button
                 type="button"
                 onClick={() => setAuthView("login")}
-                className="font-medium text-primary hover:underline"
+                className="font-medium text-[#1a5e1a] hover:underline"
               >
                 Sign in
               </button>
