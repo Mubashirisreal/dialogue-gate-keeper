@@ -128,6 +128,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         provider: 'google',
         options: {
           redirectTo: EXTERNAL_REDIRECT_URL,
+          skipBrowserRedirect: false,
         },
       });
       
